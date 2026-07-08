@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "lib": ["ESNext"],
+    "types": ["node"],
+
+    "strict": true,
+    "esModuleInterop": true,
+
+    "sourceMap": true,
+
+    "skipLibCheck": true,
+
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

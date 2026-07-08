@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id         String   @id @default(uuid())
+  source     String
+  payload    Json
+  receivedAt DateTime @default(now())
+  status     String
+
+  @@map("events")
+}
+
+model Incident {
+  id           String   @id @default(uuid())
+  title        String
+  severity     String
+  summary      String?
+  status       String   
+  recommended_action Json?
+  createdAt    DateTime @default(now())
+
+  notifications    Notification[]
+  acknowledgements Acknowledgement[]
+
+  @@map("incidents")
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  incidentId  String
+  channel     String
+  sent        Boolean  @default(false)
+  retryCount  Int      @default(0)
+  status       String
+
+  incident Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model Acknowledgement {
+  id         String   @id @default(uuid())
+  incidentId String
+  user       String
+  time       DateTime @default(now())
+  channel    String
+
+  incident Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+
+  @@map("acknowledgements")
+}
