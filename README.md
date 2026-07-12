@@ -1,4 +1,19 @@
-#Documentation : `https://muhammad-abdullah-khan.docs.buildwithfern.com/ai-incident-report-and-alert-router/introduction`
+![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?style=flat-square&logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express-API-000000?style=flat-square&logo=express&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-BullMQ-DC382D?style=flat-square&logo=redis&logoColor=white)
+![Groq](https://img.shields.io/badge/AI-Groq-F55036?style=flat-square)
+![Discord](https://img.shields.io/badge/Discord-Notifications-5865F2?style=flat-square&logo=discord&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)
+
+## 📚 Documentation
+
+Full setup guides, API references, and architecture deep-dives are available at:
+
+**[muhammad-abdullah-khan.docs.buildwithfern.com](https://muhammad-abdullah-khan.docs.buildwithfern.com/ai-incident-report-and-alert-router/introduction)**
+
 # Incident Intake & Notification Service
 
 A Node.js + TypeScript service that receives webhook events, stores them, generates incident summaries with Groq, and dispatches notifications through email and Discord.
@@ -60,16 +75,21 @@ flowchart TD
     I --> J[Notification Service<br/>Discord<br/>WhatsApp<br/>Email<br/>X]
     J --> K[Dashboard]
 ```
+## 📁 Project Structure
 
-## Project Structure
-
-- src/server.ts - Express app bootstrap
-- src/routes - Route definitions for webhook and event management
-- src/controllers - Request handlers
-- src/services - Groq integration, notification logic, job queues, workers
-- src/utils - Formatting and parsing helpers
-- prisma/schema.prisma - Prisma models and database schema
-
+```
+src/
+├── server.ts           # Express app bootstrap
+├── routes/              # Webhook & event management routes
+├── controllers/         # Request handlers
+├── services/
+│   ├── groq.ts          # Groq AI integration
+│   ├── workers/         # BullMQ queues & worker bootstrapping
+│   └── notifications/   # Email & Discord delivery logic
+├── utils/                # Formatting & parsing helpers
+prisma/
+└── schema.prisma        # Prisma models & database schema
+```
 ## Setup Instructions
 
 ### Prerequisites
