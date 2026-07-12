@@ -54,8 +54,8 @@ flowchart TD
     C --> D[PostgreSQL<br/>Raw Events]
     D --> E[BullMQ<br/>Redis Job Queue]
     E --> F[AI Analysis Worker]
-    F --> H[AI Classification]
-    G --> I[Incident Database]
+    F --> G[AI Classification]
+    G --> H[Incident Database]
     H --> I
     I --> J[Notification Service<br/>Discord<br/>WhatsApp<br/>Email<br/>X]
     J --> K[Dashboard]
