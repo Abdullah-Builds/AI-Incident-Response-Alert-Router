@@ -14,12 +14,26 @@ const env = {
   maxRetriesPerRequest: null,
   email_user : process.env.EMAIL_USER as string,
   email_password: process.env.EMAIL_PASSWORD as string,
-  resend : process.env.RESEND as string
+  webhook_secret : process.env.WEBHOOK_SECRET
 };
 
+const required = [
+  "DATABASE_URL",
+  "GROQ_API_KEY",
+  "DISCORD_WEBHOOK_URL",
+  "REDIS_HOST",
+  "REDIS_PORT",
+  "REDIS_USERNAME",
+  "REDIS_PASSWORD",
+  "EMAIL_USER",
+  "EMAIL_PASSWORD",
+  "WEBHOOK_SECRET"
+];
 
-if (!env.DATABASE_URL || !env.GROQ_API_KEY) {
-  throw new Error(" Something is not defined in the .env file.");
+for (const key of required) {
+  if (!process.env[key]) {
+    throw new Error(`Missing environment variable: ${key}`);
+  }
 }
 
 export default env;

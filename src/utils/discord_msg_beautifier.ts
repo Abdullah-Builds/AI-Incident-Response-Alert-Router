@@ -26,8 +26,8 @@ const severityConfig = {
   },
 } as const;
 
-export async function BeautifyDiscordMsg(payload: string): Promise<object> {
-  const data: IncidentPayload = JSON.parse(payload);
+export async function BeautifyDiscordMsg(payload: IncidentPayload): Promise<object> {
+  const data: IncidentPayload = payload;
 
   const config = severityConfig[data.severity];
 

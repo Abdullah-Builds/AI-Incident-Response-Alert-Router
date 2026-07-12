@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Prisma } from "@prisma/client";
 import prisma from "../db/prisma";
 
 
@@ -14,7 +15,7 @@ export const getEvents = async (req: Request, res: Response) => {
             skip: (page - 1) * limit,
             take: limit,
             orderBy: {
-                createdAt: order,
+                receivedAt: order,
             } as any,
         });
         return res.status(200).json(events);
@@ -72,3 +73,50 @@ export const deleteEvent = async (req: Request, res: Response) => {
         return res.status(401).json({ message: "Unknown Error" });
     }
 }
+
+//?123/status
+export const updateEventStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const eventId = Array.isArray(id) ? id[0] : id;
+
+    if (!eventId) {
+      return res.status(400).json({
+        message: "Event ID is required",
+      });
+    }
+
+    const event = await prisma.event.update({
+      where: {
+        id: eventId,
+      },
+      data: {
+        status: "not_active",
+      },
+    });
+
+    return res.status(200).json({
+      message: "Event status updated successfully",
+      event,
+    });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return res.status(404).json({
+        message: "Event not found",
+      });
+    }
+
+    if (error instanceof Error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      message: "Unknown error",
+    });
+  }
+};

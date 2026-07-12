@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 import env from "../config/env";
 import { prompt } from "../constants";
-import prisma from "../db/prisma";
 
 const client = new OpenAI({
   apiKey: env.GROQ_API_KEY,
@@ -15,7 +14,7 @@ export type Report = {
   recommended_action: string[];
 };
 
-async function GenerateReport(data: unknown): Promise<string> {
+async function GenerateReport(data: unknown): Promise<Report> {
   const response = await client.chat.completions.create({
     model: "llama-3.3-70b-versatile",
     response_format: { type: "json_object" },
@@ -36,24 +35,7 @@ async function GenerateReport(data: unknown): Promise<string> {
   if (!rawContent) {
     throw new Error("No response received from Groq.");
   }
-
-  const report: Report = JSON.parse(rawContent);
-
-  await SaveResponse(report);
-
-  return rawContent;
+  return JSON.parse(rawContent) as Report
 }
 
 export default GenerateReport;
-
-async function SaveResponse(report: Report): Promise<void> {
-  await prisma.incident.create({
-    data: {
-      title: report.title,
-      severity: report.severity,
-      summary: report.summary,
-      status: "active",
-      recommended_action: report.recommended_action,
-    },
-  });
-}

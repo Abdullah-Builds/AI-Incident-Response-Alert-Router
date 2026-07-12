@@ -4,28 +4,21 @@ import env from "../../config/env";
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: env.email_user.trim(),
-    pass: env.email_password.trim(),
+    user: env.email_user,
+    pass: env.email_password,
   },
 });
 
-export async function sendEmail({ to, subject, html }: { to?: string; subject?: string; html?: string; }) {
+export async function sendEmail({ to, subject, html }: { to?: string; subject: string; html: string; }) {
   try {
-    // Verify SMTP connection
-    console.log("Password Length:", env.email_password?.length);
 
-    await transporter.verify();
-    console.log("SMTP connection successful");
-
-    // Send email
+    await transporter.verify();    
     const info = await transporter.sendMail({
-      from: `"Incident Monitor" <${env.email_user.trim()}>`,
+      from: `"Incident Monitor" <${env.email_user}>`,
       to : "khan.abdullah9753@gmail.com",
       subject,
       html,
     });
-
-    console.log("Email sent:", info.messageId);
     return info;
   } catch (error) {
     console.error("Email sending failed:", error);
