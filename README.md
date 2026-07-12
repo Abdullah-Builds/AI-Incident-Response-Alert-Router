@@ -56,7 +56,7 @@ flowchart TD
     E --> F[AI Analysis Worker]
     F --> G[AI Classification]
     G --> H[Incident Database]
-    H --> I
+    H --> I[Create Notification]
     I --> J[Notification Service<br/>Discord<br/>WhatsApp<br/>Email<br/>X]
     J --> K[Dashboard]
 ```
