@@ -1,3 +1,4 @@
+#Documentation : `https://muhammad-abdullah-khan.docs.buildwithfern.com/ai-incident-report-and-alert-router/introduction`
 # Incident Intake & Notification Service
 
 A Node.js + TypeScript service that receives webhook events, stores them, generates incident summaries with Groq, and dispatches notifications through email and Discord.
