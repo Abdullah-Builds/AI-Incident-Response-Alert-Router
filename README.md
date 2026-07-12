@@ -44,6 +44,23 @@ The service is split into three main layers:
 6. Email and Discord jobs are queued in Redis.
 7. Worker processes send the actual notifications.
 
+### Architecture diagram
+
+```mermaid
+flowchart TD
+    A[External Systems<br/>Datadog<br/>Stripe<br/>GitHub<br/>Grafana<br/>Custom Apps<br/>Customer Portal] --> B[Webhook Gateway]
+    B --> C[Validate Signature]
+    C --> D[PostgreSQL<br/>Raw Events]
+    D --> E[BullMQ<br/>Redis Job Queue]
+    E --> F[AI Analysis Worker]
+    F --> G[Duplicate Detection]
+    F --> H[AI Classification]
+    G --> I[Incident Database]
+    H --> I
+    I --> J[Notification Service<br/>Discord<br/>WhatsApp<br/>Email<br/>X]
+    J --> K[React Dashboard]
+```
+
 ## Project Structure
 
 - src/server.ts - Express app bootstrap
